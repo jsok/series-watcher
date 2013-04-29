@@ -1,4 +1,10 @@
-dirs:
-    series-watcher/tmp:
-    series-watcher/tmp2:
+watch_dirs:
+    - /tmp
+    - /tmp2
+sync_dirs:
+    sync/a:
+        - Series Name
+    sync/b:
+        - Series Name
+
 
