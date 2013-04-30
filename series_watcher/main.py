@@ -6,17 +6,20 @@ import pyinotify
 from config import ConfigReader
 from watcher import EventHandler
 
-usage = "usage: %prog [options]"
-parser = OptionParser(usage=usage)
-parser.add_option("-c", "--config",
-                  metavar="FILE", help="write output to FILE")
+def main():
+    usage = "Usage: %prog [options]"
+    parser = OptionParser()
+    parser.add_option("-c", "--config",
+                      dest="config",
+                      metavar="FILE",
+                      help="Use config in FILE")
+    (options, args) = parser.parse_args()
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print "Usage: %s config.yml" % sys.argv[0]
+    if not options.config:
+        parser.print_help()
         sys.exit(1)
 
-    config = ConfigReader(sys.argv[1])
+    config = ConfigReader(options.config)
 
     wm = pyinotify.WatchManager()
     handler = EventHandler(config)
@@ -30,3 +33,5 @@ if __name__ == "__main__":
     # TODO: Slow down polling, every minute should be fine
     notifier.loop()
 
+if __name__ == "__main__":
+    main()
